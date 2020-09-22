@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "GP_PoM"
+version = "0.1.0"
+description = "Posterior Moments Gaussian Process Adapters"
+authors = ["mi92 <michael.d.moor@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+torch = "1.2.0"
+gpytorch = "1.0.1"
+matplotlib = "3.2.1"
+uea-ucr-datasets = "0.1.2"
+sklearn = "0.0"
+tqdm = "4.45.0"
+pandas = "1.0.3"
+sacred = "0.8.1"
+requests = "2.23.0"
+scikit-optimize = "0.7.4"
+tabulate = "0.8.7"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0a5"]
+build-backend = "poetry.core.masonry.api"
