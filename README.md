@@ -34,8 +34,8 @@ To make the above example experiment possible, we have provided some boilerplate
 Keep in mind that several library dependencies are only due to this application and are not essential to the GP-PoM implementation (for instance `sacred`).  
   
 ## Conributors 
-Michael Moor ([github](https://github.com/mi92))   
-Bastian Rieck ([github](https://github.com/pseudomanifold)) 
+Michael Moor ([github](https://github.com/mi92))  
+Bastian Rieck ([github](https://github.com/pseudomanifold))   
 Max Horn ([github](https://github.com/expectationmax))   
 Christian Bock ([github](https://github.com/chrisby))    
 Patrick Kidger ([github](https://github.com/patrick-kidger))  
