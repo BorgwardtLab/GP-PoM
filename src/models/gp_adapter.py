@@ -6,11 +6,11 @@ from src.models.rnn_models import GRU, LSTM
 
 class GPRNNModel(nn.Module):
     """
-    GP Adapter combined with a RNN
+    Multi-task Gaussian Adapter model instanciated with a RNN (gru or lstm)
     """
 
-    def __init__(self, n_input_dims, out_dimension, sampling_type, n_mc_smps, n_devices, output_device, sig_depth=2,
-                 kernel='rbf', mode='normal', keops=False, hidden_size=32, rnn_type='gru'):
+    def __init__(self, n_input_dims, out_dimension, sampling_type, n_mc_smps, device='cuda', sig_depth=2,
+                 kernel='rbf', mode='normal', hidden_size=32, rnn_type='gru'):
         super(GPRNNModel, self).__init__()
         
         #safety guard:
@@ -22,7 +22,7 @@ class GPRNNModel(nn.Module):
         else:
             clf_input_dims = n_input_dims
 
-        likelihood = gpytorch.likelihoods.GaussianLikelihood().to(output_device, non_blocking=True)
+        likelihood = gpytorch.likelihoods.GaussianLikelihood().to(device, non_blocking=True)
         if rnn_type == 'gru':
             clf_class = GRU
         elif rnn_type == 'lstm':
@@ -41,11 +41,8 @@ class GPRNNModel(nn.Module):
                                sampling_type,
                                likelihood,
                                n_input_dims + 1,
-                               n_devices,
-                               output_device,
                                kernel,
-                               mode,
-                               keops
+                               mode
         )
 
     def forward(self, *data):

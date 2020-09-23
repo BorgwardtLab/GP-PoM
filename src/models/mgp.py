@@ -3,48 +3,30 @@ import torch
 import torch.nn as nn
 
 
-# Exact Hadamard Multi-task Gaussian Process Model
 class MultitaskGPModel(gpytorch.models.ExactGP):
-    def __init__(self, train_x, train_y, likelihood, output_device, num_tasks=2, n_devices=1, kernel='rbf', mode='normal', keops=False):
+    """
+    Exact Hadamard Multi-task Gaussian Process Model
+    """
+    def __init__(self, train_x, train_y, likelihood, num_tasks=2, kernel='rbf', mode='normal'):
         super(MultitaskGPModel, self).__init__(train_x, train_y, likelihood)
-        self.output_device = output_device
         self.mean_module = gpytorch.means.ConstantMean()
         valid_kernels = ['rbf', 'ou']
         if kernel not in valid_kernels:
             raise ValueError(f'parsed kernel: {kernel} not among implemented kernels: {valid_kernels}')
         elif kernel == 'rbf':
-            if keops:
-                base_covar_module = gpytorch.kernels.keops.RBFKernel()
-            else:
-                base_covar_module = gpytorch.kernels.RBFKernel()
+            base_covar_module = gpytorch.kernels.RBFKernel()
         elif kernel == 'ou':
-            if keops:
-                base_covar_module = gpytorch.kernels.keops.MaternKernel(nu=0.5)
-            else:
-                base_covar_module = gpytorch.kernels.MaternKernel(nu=0.5)
-
-        if n_devices > 1: #in multi-gpu setting
-            if mode != 'normal':
-                raise NotImplementedError('scalable-GPs and multi-device have not been implemented!')
-            self.covar_module = gpytorch.kernels.MultiDeviceKernel(
-                base_covar_module, device_ids=range(n_devices),
-                output_device=self.output_device)
-            #self.task_covar_module = gpytorch.kernels.IndexKernel(num_tasks=num_tasks, rank=3)
-            base_task_covar_module = gpytorch.kernels.IndexKernel(num_tasks=num_tasks, rank=3)
-            self.task_covar_module = gpytorch.kernels.MultiDeviceKernel(
-                base_task_covar_module, device_ids=range(n_devices),
-                output_device=self.output_device)
+            base_covar_module = gpytorch.kernels.MaternKernel(nu=0.5)
+        
+        if mode == 'kiss':
+            self.covar_module = gpytorch.kernels.GridInterpolationKernel(
+                        gpytorch.kernels.RBFKernel(), grid_size=30, num_dims=1
+            ) 
+        elif mode == 'normal':
+            self.covar_module = base_covar_module #gpytorch.kernels.RBFKernel()
         else:
-            if mode == 'kiss':
-                self.covar_module = gpytorch.kernels.GridInterpolationKernel(
-                            gpytorch.kernels.RBFKernel(), grid_size=30, num_dims=1
-                ) 
-            elif mode == 'normal':
-                self.covar_module = base_covar_module #gpytorch.kernels.RBFKernel()
-            else:
-                raise NotImplementedError(f'Current mode {mode} not among implemented ones: [normal, kiss] ')
-            self.task_covar_module = gpytorch.kernels.IndexKernel(num_tasks=num_tasks, rank=3)
-   
+            raise NotImplementedError(f'Current mode {mode} not among implemented ones: [normal, kiss] ')
+        self.task_covar_module = gpytorch.kernels.IndexKernel(num_tasks=num_tasks, rank=3)
  
     def forward(self,x,i):
         mean_x = self.mean_module(x)
@@ -59,10 +41,12 @@ class MultitaskGPModel(gpytorch.models.ExactGP):
         return gpytorch.distributions.MultivariateNormal(mean_x, covar)
 
 
-# MGP Layer for Neural Network using MultitaskGPModel
 class MGP_Layer(MultitaskGPModel):
-    def __init__(self,likelihood, num_tasks, n_devices, output_device, kernel, mode, keops=False):
-        super().__init__(None, None, likelihood, output_device, num_tasks, n_devices, kernel, mode, keops)
+    """
+    Mult-task Gaussian Process Layer to include as torch module in neural networks 
+    """
+    def __init__(self,likelihood, num_tasks, kernel, mode):
+        super().__init__(None, None, likelihood, num_tasks, kernel, mode)
         #we don't intialize with train data for more flexibility
         likelihood.train()
 
@@ -72,9 +56,11 @@ class MGP_Layer(MultitaskGPModel):
     def condition_on_train_data(self, inputs, indices, values):
         self.set_train_data(inputs=(inputs, indices), targets=values, strict=False)
 
-# Custom GP Adapter:
-# MGP Adapter
+
 class GPAdapter(nn.Module):
+    """
+    Gaussian Process Adapter class which takes a down-stream classifier as well as parameters to initialize a MGP layer 
+    """
     def __init__(self, clf, n_input_dims, n_mc_smps, sampling_type, *gp_params):
         super(GPAdapter, self).__init__()
         self.n_mc_smps = n_mc_smps
