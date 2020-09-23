@@ -1,4 +1,8 @@
 # GP-PoM: Gaussian Process Adapters with Posterior Moments 
+
+<p align="center">
+<img src="results/overview.png" width="500">
+</p>
  
 ## Reference  
 This repository contains code for GP-PoM method as presented in the following [paper](https://arxiv.org/abs/2005.12359):
