@@ -6,17 +6,17 @@
  
 ## Reference  
 This repository contains code for GP-PoM method as presented in the following [paper](https://arxiv.org/abs/2005.12359):
-```
+```BibTeX
 @misc{moor2020path,
-  title          ={Path Imputation Strategies for Signature Models of Irregular Time Series},
+  title         = {Path Imputation Strategies for Signature Models of Irregular Time Series},
   author        = {Moor, Michael and Horn, Max and Bock, Christian and Borgwardt, Karsten and Rieck, Bastian},
   eprint        = {2005.12359},
   archiveprefix = {arXiv},
   primaryclass  = {cs.LG},
   year          = {2020},
 }
-
 ```   
+
 Furthermore, this work was subsumed in this [short paper](https://openreview.net/forum?id=P0DL7M6T57o) which was accepted for presentation at the ICML 2020 workshop on the art of learning with missing values (Artemiss).
 
 ## Environment
