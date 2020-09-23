@@ -7,11 +7,13 @@
 ## Reference  
 This repository contains code for GP-PoM method as presented in the following [paper](https://arxiv.org/abs/2005.12359):
 ```
-@article{moor2020path,
-  title={Path Imputation Strategies for Signature Models},
-  author={Moor, Michael and Horn, Max and Bock, Christian and Borgwardt, Karsten and Rieck, Bastian},
-  journal={arXiv preprint arXiv:2005.12359},
-  year={2020},
+@misc{moor2020path,
+  title          ={Path Imputation Strategies for Signature Models of Irregular Time Series},
+  author        = {Moor, Michael and Horn, Max and Bock, Christian and Borgwardt, Karsten and Rieck, Bastian},
+  eprint        = {2005.12359},
+  archiveprefix = {arXiv},
+  primaryclass  = {cs.LG},
+  year          = {2020},
 }
 
 ```   
