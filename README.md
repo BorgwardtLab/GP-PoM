@@ -23,10 +23,12 @@ Please install the dependencies as indicated in the ```requirements.txt``` or ``
 If you are interesting in the raw torch modules which implement GPyTorch-based multi-task GP adapters (our novel GP-PoM as well as the standard monte carlo GP adapter), please check out
 ```src/models```. 
   
-In order to quickly test these models on a real-world dataset, simply run:
-```python exp/train_model.py with model.GPRNNModel dataset.PenDigits model.parameters.sampling_type=moments``` 
-In case no GPU is available, simply add the argument `device=cpu` 
-The above command starts a fit of a GP adapter using posterior moments (GP-PoM), by default using a GRU cell on the PenDigits dataset. To run a conventional GP adapter employing monte carlo sampling, simply replace mode.parameters.sampling_type=monte_carlo (or leave away the argument, since this is the default) 
+In order to quickly test these models on a real-world dataset, simply run:  
+```python exp/train_model.py with model.GPRNNModel dataset.PenDigits model.parameters.sampling_type=moments```  
+ 
+In case no GPU is available, simply add the argument `device=cpu`.  
+
+The above python command starts a fit of a GP adapter using posterior moments (GP-PoM), by default using a GRU cell on the PenDigits dataset. To run a conventional GP adapter employing monte carlo sampling, simply replace mode.parameters.sampling_type=monte_carlo (or leave away the argument, since this is the default).   
 
 To make the above example experiment possible, we have provided some boilerplate experiment code under ```exp/``` which makes it easy for us to quickly run a GP-PoM method on a irregularly spaced (due to subsampling) dataset, namely PenDigits.
 Keep in mind that several library dependencies are only due to this application and are not essential to the GP-PoM implementation (for instance `sacred`).  
