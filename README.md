@@ -33,4 +33,9 @@ The above python command starts a fit of a GP adapter using posterior moments (G
 To make the above example experiment possible, we have provided some boilerplate experiment code under ```exp/``` which makes it easy for us to quickly run a GP-PoM method on a irregularly spaced (due to subsampling) dataset, namely PenDigits.
 Keep in mind that several library dependencies are only due to this application and are not essential to the GP-PoM implementation (for instance `sacred`).  
   
-
+## Conributors 
+Michael Moor [github](https://github.com/mi92)  
+Bastian Rieck [github](https://github.com/pseudomanifold)
+Max Horn [github](https://github.com/expectationmax)  
+Christian Bock [github](https://github.com/chrisby)
+Patrick Kidger [github](https://github.com/patrick-kidger)
