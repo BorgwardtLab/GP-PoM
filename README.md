@@ -38,7 +38,7 @@ To make the above example experiment possible, we have provided some boilerplate
 Keep in mind that several library dependencies are only due to this application and are not essential to the GP-PoM implementation (for instance `sacred`).  
  
 ## Comparing GP-PoM Adapter against standard monte carlo GP adapter:
-We compare the training of a GP-PoM GRU Model against the standard monte carlo GP GRU baseline. Using the best hyperparameters for each method, as identified in the [paper](https://arxiv.org/abs/2005.12359), we trained 5 repetitions and plot the test performance over the first 2000 mini batch steps in terms of balanced accuracy.  
+Here, we compare the training of a GP-PoM GRU Model against the standard monte carlo GP GRU baseline on the PenDigits dataset after randomly discarding 30% of all time series observations (but fixed for both methods). Using the best hyperparameters for each method, as identified in the [paper](https://arxiv.org/abs/2005.12359), we fit 5 repetitions and plot the test performance over the first 2000 mini batch steps in terms of balanced accuracy.   
 
 <p align="center">
 <img src="results/gp_pom.png" width="500">
