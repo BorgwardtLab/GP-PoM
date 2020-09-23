@@ -36,8 +36,11 @@ Keep in mind that several library dependencies are only due to this application 
 ## Comparing GP-PoM Adapter against standard monte carlo GP adapter:
 We compare the training of a GP-PoM GRU Model against the standard monte carlo GP GRU baseline. Using the best hyperparameters for each method, as identified in the [paper](https://arxiv.org/abs/2005.12359), we trained 5 repetitions and plot the test performance over the first 2000 mini batch steps in terms of balanced accuracy.  
 
-<img src="results/gp_pom.png" width="400">
+<p align="center">
+<img src="results/gp_pom.png" width="500">
+</p>
  
+
 ## Contributors   
 Michael Moor ([github](https://github.com/mi92))  
 Bastian Rieck ([github](https://github.com/pseudomanifold))   
